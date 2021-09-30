@@ -14,9 +14,12 @@ deducted_df = st.sidebar.file_uploader('Upload Hours Scheduled with Deducted Bre
 # df1 = pd.read_excel('files/Custom_Payroll_Report.xlsx')
 df1 = pd.read_excel(payroll_df)
 df1 = df1[['Code','Employee', 'Branch','Department','Unit','Total Earning']]
-df1['Code'] = df1['Code'].astype('int64')
+df1['Code'] = df1['Code']
 df1['Unit'].replace(np.nan,0, inplace=True)
 df1['Unit'] = df1['Unit'].astype('int64')
+
+# delete last row
+df1.drop(df1.tail(1).index,inplace=True)
 
 # Initialized Shifts dataframe
 # df2 = pd.read_csv('files/Shifts Schedule.csv')
@@ -190,7 +193,19 @@ df_union_2["TrackingName2"] = "Department"
 
 df_union_2 = df_union_2.append(df_union_1, ignore_index = True)
 
+df_union_2['GS'] = "GS"
+
+df_union_2["*ContactName"] = df_union_2['GS'] + " " + df_union_2["*ContactName"].astype('str')
+df_union_2["*InvoiceNumber"] = df_union_2['GS'] + " " + df_union_2["*InvoiceNumber"].astype('str')
+
+del df_union_2['GS']
+
+st.header(f"Xero Gross Upload as at {date.today()}")
 st.dataframe(df_union_2)
 
+sum_of_salaries = df_union_2['*UnitAmount'].sum(axis = 0, skipna = True)
+
+st.write(f"The sum of total earnings after splitting costs to the respective cost centers is {sum_of_salaries}")
+
 download_button_str = download_button(df_union_2, f"Gross Upload as at {date.today()}.csv", 'Download CSV', pickle_it=False)
-st.sidebar.markdown(download_button_str, unsafe_allow_html=True)
+st.markdown(download_button_str, unsafe_allow_html=True)
