@@ -10,19 +10,23 @@ payroll_df = st.sidebar.file_uploader('Upload Custom Payroll Data in .xlsx forma
 schedule_df = st.sidebar.file_uploader('Upload Shifts Schedule Data in .csv format')
 deducted_df = st.sidebar.file_uploader('Upload Hours Scheduled with Deducted Breaks Data in .csv format')
 
+# payroll_df = 'files/Custom_Payroll_Report.xlsx'
+# schedule_df = 'files/Shifts Schedule.csv'
+# deducted_df = 'files/Hours Scheduled.csv'
+
 # Initialized Custom Payroll dataframe
-# df1 = pd.read_excel('files/Custom_Payroll_Report.xlsx')
 df1 = pd.read_excel(payroll_df)
 df1 = df1[['Code','Employee', 'Branch','Department','Unit','Total Earning']]
-df1['Code'] = df1['Code'].astype('int64')
-df1['Unit'].replace(np.nan,0, inplace=True)
-df1['Unit'] = df1['Unit'].astype('int64')
 
 # delete last row
 df1.drop(df1.tail(1).index,inplace=True)
 
+# type conversion
+df1['Code'] = df1['Code'].astype('int')
+df1['Unit'].replace(np.nan,0, inplace=True)
+df1['Unit'] = df1['Unit'].astype('int64')
+
 # Initialized Shifts dataframe
-# df2 = pd.read_csv('files/Shifts Schedule.csv')
 df2 = pd.read_csv(schedule_df)
 del df2['Salary']
 del df2['start_day']
@@ -52,7 +56,6 @@ df2 = df2.rename(columns={"employee":"employee_name"})
 df2['location'].replace('Umoja Clinic','Umoja 2',inplace=True)
 df2['remote_site'] = df2['remote_site'].astype('object')
 df2['remote_site'].replace(np.nan,'Blank',inplace=True)
-print(df2)
 df2['eid'].replace(np.nan,0, inplace=True)
 df2['eid'] = df2['eid'].astype('int64')
 
@@ -76,7 +79,7 @@ df2 = pd.merge(
 df2 = df2.groupby(['employee_name', 'id', 'eid', 'location', 'Code','Employee','Department','Unit','Total Earning'], as_index=False)['total_time'].sum()
 
 # Routine cleanup of the dataframe
-df2['Unit'] = df2['Unit'].astype('int64')
+df2['Unit'] = df2['Unit'].astype('int')
 del df2['Code']
 del df2['employee_name']
 
