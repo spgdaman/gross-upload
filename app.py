@@ -14,7 +14,7 @@ deducted_df = st.sidebar.file_uploader('Upload Hours Scheduled with Deducted Bre
 # df1 = pd.read_excel('files/Custom_Payroll_Report.xlsx')
 df1 = pd.read_excel(payroll_df)
 df1 = df1[['Code','Employee', 'Branch','Department','Unit','Total Earning']]
-df1['Code'] = df1['Code']
+df1['Code'] = df1['Code'].astype('int64')
 df1['Unit'].replace(np.nan,0, inplace=True)
 df1['Unit'] = df1['Unit'].astype('int64')
 
