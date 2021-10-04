@@ -200,6 +200,8 @@ df_union_2['GS'] = "GS"
 
 df_union_2["*ContactName"] = df_union_2['GS'] + " " + df_union_2["*ContactName"].astype('str')
 df_union_2["*InvoiceNumber"] = df_union_2['GS'] + " " + df_union_2["*InvoiceNumber"].astype('str')
+df_union_2["*UnitAmount"] = df_union_2["*UnitAmount"].round(decimals = 2)
+df_union_2.replace('Call Center','Support Office',inplace=True)
 
 del df_union_2['GS']
 
