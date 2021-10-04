@@ -218,8 +218,7 @@ deducted_df = st.sidebar.file_uploader('Upload Hours Scheduled with Deducted Bre
 
 if payroll_df == None or schedule_df == None or deducted_df == None:
     st.warning("Please upload all required files!")
-    print(type(payroll_df))
 else:
-    st.info("Files uploaded successfully")
-    print(type(payroll_df))
+    st.success("Files uploaded successfully!")
+    st.balloons()
     labour_costs(payroll_df,schedule_df,deducted_df)
