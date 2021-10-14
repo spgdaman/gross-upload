@@ -6,6 +6,23 @@ from download import download_button
 
 st.set_page_config(layout='wide')
 
+with st.beta_expander("Click me to view instruction on how to use the tool"):
+    st.info("For the tool to work, 3 files are required as listed below")
+    st.markdown(
+        '''
+ 1. **Custom Payroll Report** : This should be in **excel** format, and the key columns listed below should be present and not empty for accurate results in the final output:
+	 - Code 
+	 - Employee
+	 - Branch
+	 - Department
+	 - Unit
+	 - Total 
+2. **Shifts Schedule**: This should be in **csv** format, with no blanks in the ***eid*** columns.
+3.  **Hours Scheduled**:This should be in **csv** format, with no blanks in the ***eid*** columns, and the last row with totals removed. Make sure to select **Deducted Breaks** while filtering data in Humanity before downloading.
+
+        '''
+    )
+
 # payroll_df = 'files/Custom_Payroll_Report.xlsx'
 # schedule_df = 'files/Shifts Schedule.csv'
 # deducted_df = 'files/Hours Scheduled.csv'
