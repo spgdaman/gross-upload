@@ -6,7 +6,7 @@ from download import download_button
 
 st.set_page_config(layout='wide')
 
-with st.beta_expander("Click me to view instruction on how to use the tool"):
+with st.expander("Click me to view instruction on how to use the tool"):
     st.info("For the tool to work, 3 files are required as listed below")
     st.markdown(
         '''
@@ -124,7 +124,8 @@ def labour_costs(payroll_df,schedule_df,deducted_df):
 
     # routine clean up of dataframe
     del df2['Id']
-    del df2['Eid']
+    del df2['eid_y']
+    df2 = df2.rename(columns={"eid_x":"eid"})
     del df2['Name']
 
     # Calculation of Labour Cost
